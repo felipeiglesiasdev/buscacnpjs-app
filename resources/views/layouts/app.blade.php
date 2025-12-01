@@ -13,7 +13,7 @@
 </head>
 <body class="font-sans bg-slate-50 text-slate-900">
     @include('components.header')
-    <main class="min-h-screen">
+    <main>
         @if (session('success'))
             <div class="fixed inset-x-4 top-6 md:inset-x-auto md:right-6 z-50">
                 <div class="rounded-lg border border-green-200 bg-white shadow-lg px-4 py-3 flex items-start gap-3">
