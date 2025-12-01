@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
-<body class="font-sans">
+<body class="font-sans bg-slate-50 text-slate-900">
     @include('components.header')
-    <main>
+    <main class="min-h-screen">
         @yield('content')
     </main>
     @include('components.footer')

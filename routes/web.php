@@ -10,6 +10,7 @@ use App\Http\Controllers\RemocaoController;
 // --- ROTAS DE CNPJ ---
 Route::get('/', [HomeController::class, 'index'])->name('home');                                                // PÁGINA PRINCIPAL
 Route::get('/politica-de-privacidade', [PrivacidadeController::class, 'index'])->name('privacidade');           // PÁGINA POLITICA DE PRIVACIDADE
+Route::get('/remocao-de-dados', [RemocaoController::class, 'index'])->name('remocao');                        // PÁGINA DE REMOÇÃO
 //########################################################################################################################
 //########################################################################################################################
 // --- ROTAS DE CNPJ ---
