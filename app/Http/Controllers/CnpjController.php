@@ -148,14 +148,6 @@ class CnpjController extends Controller
             'legalName' => $empresa->razao_social,
             'url' => url()->current(),
             'vatID' => $cnpjApenasNumeros,
-            'address' => [
-                '@type' => 'PostalAddress',
-                'streetAddress' => $estabelecimento->tipo_logradouro . ' ' . ($estabelecimento->logradouro ?? '') . ', ' . ($estabelecimento->numero ?? 'S/N'),
-                'addressLocality' => $estabelecimento->municipioRel->descricao ?? '',
-                'addressRegion' => $estabelecimento->uf ?? '',
-                'postalCode' => $estabelecimento->cep,
-                'addressCountry' => 'BR',
-            ],
         ];
         if (!empty($estabelecimento->ddd1) && !empty($estabelecimento->telefone1)) {
             $structuredData['telephone'] = '+55' . $estabelecimento->ddd1 . $estabelecimento->telefone1;
@@ -169,10 +161,8 @@ class CnpjController extends Controller
             'og:description' => 'Veja detalhes sobre a empresa ' . $empresa->razao_social . ', inscrita no CNPJ ' . $this->formatarCnpj($cnpjApenasNumeros) .', endereço, atividades e situação cadastral.',
             'og:url' => url()->current(),
             'og:type' => 'website',
-            'og:site_name' => 'CNPJ Total', // Ou o nome do seu site
-            'og:locale' => 'pt_BR',
-            'og:image' => asset('images/social.webp'),
-            'og:image:type' => 'image/webp',   
+            'og:site_name' => 'Busca CNPJs', // Ou o nome do seu site
+            'og:locale' => 'pt_BR',   
         ];
         $metaData = [
             'description' => 'Veja detalhes sobre a empresa ' . $empresa->razao_social . ', inscrita no CNPJ ' . $this->formatarCnpj($cnpjApenasNumeros) .', endereço, atividades e situação cadastral.',
