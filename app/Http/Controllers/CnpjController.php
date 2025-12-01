@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresa;
-use App\Models\Estabelecimento; 
+use App\Models\Estabelecimento;
 use App\Models\Cnae;
+use App\Models\SolicitacaoRemocao;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,13 +15,19 @@ class CnpjController extends Controller
 {
 
     // FUNÇÃO UTILIZADA PARA ENCONTRAR UM ESTABELECIMENTO VÁLIDO, VERIFICAR SE EXISTE NA TABELA 'estabelecimentos'
-    private function findValidEstabelecimento(string $cnpj): ?Estabelecimento 
+    private function findValidEstabelecimento(string $cnpj): ?Estabelecimento
     {
-        $cnpjBase = substr($cnpj, 0, 8);
-        $cnpjOrdem = substr($cnpj, 8, 4);
-        $cnpjDv = substr($cnpj, 12, 2);
+        $cnpjLimpo = preg_replace('/[^0-9]/', '', $cnpj);
+
+        if (SolicitacaoRemocao::where('cnpj', $cnpjLimpo)->exists()) {
+            return null;
+        }
+
+        $cnpjBase = substr($cnpjLimpo, 0, 8);
+        $cnpjOrdem = substr($cnpjLimpo, 8, 4);
+        $cnpjDv = substr($cnpjLimpo, 12, 2);
         $estabelecimento = Estabelecimento::where('cnpj_basico', $cnpjBase)->where('cnpj_ordem', $cnpjOrdem)->where('cnpj_dv', $cnpjDv)->first();
-        return $estabelecimento; 
+        return $estabelecimento;
     }
     //################################################################################################
     //################################################################################################
@@ -62,6 +69,10 @@ class CnpjController extends Controller
     {
         $cnpjApenasNumeros = preg_replace('/[^0-9]/', '', $cnpj); // Mantém limpeza
 
+        if (SolicitacaoRemocao::where('cnpj', $cnpjApenasNumeros)->exists()) {
+            abort(404);
+        }
+
         if (session()->has('found_estabelecimento') && session()->has('found_empresa')) {
             $estabelecimento = session('found_estabelecimento');
             $empresa = session('found_empresa');
@@ -74,10 +85,15 @@ class CnpjController extends Controller
             $estabelecimento = Estabelecimento::where('cnpj_basico', substr($cnpjApenasNumeros, 0, 8))
                                     ->where('cnpj_ordem', substr($cnpjApenasNumeros, 8, 4))
                                     ->where('cnpj_dv', substr($cnpjApenasNumeros, 12, 2))
-                                    ->with('municipioRel') 
-                                    ->first(); 
+                                    ->with('municipioRel')
+                                    ->first();
             // Busca a empresa e carrega as relações
             $empresa = Empresa::with('socios.qualificacao', 'naturezaJuridica')->find(substr($cnpjApenasNumeros, 0, 8));
+        }
+
+
+        if (!$estabelecimento || !$empresa) {
+            abort(404);
         }
 
 
@@ -173,6 +189,7 @@ class CnpjController extends Controller
         $dadosParaExibir = [
             // Card: Informações do CNPJ (dados existentes)
             'cnpj_completo' => $this->formatarCnpj($cnpjApenasNumeros),
+            'cnpj_limpo' => $cnpjApenasNumeros,
             'razao_social' => $empresa->razao_social,
             'nome_fantasia' => $estabelecimento->nome_fantasia,
             'natureza_juridica' => $empresa->naturezaJuridica->descricao ?? 'Não informado',
