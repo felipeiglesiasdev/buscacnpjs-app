@@ -9,25 +9,13 @@ class SolicitacaoRemocao extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql_dados';
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'solicitacoes_remocao';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'cnpj',
-        'razao_social',
-        'email_solicitante',
-        'nome_solicitante',
-        'motivo',
-        'status',
+        'nome_responsavel',
+        'confirmou_nao_divulgamos',
+        'ciente_dados_publicos',
+        'ciente_prazo_busca',
     ];
 }
