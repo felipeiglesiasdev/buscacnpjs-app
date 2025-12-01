@@ -24,7 +24,7 @@
                 @csrf
                 <div class="space-y-2">
                     <label for="cnpj" class="block text-sm font-medium text-slate-700">Número do CNPJ</label>
-                    <input id="cnpj" name="cnpj" type="text" inputmode="numeric" placeholder="00.000.000/0000-00" value="{{ old('cnpj') }}" class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
+                    <input id="cnpj" name="cnpj" type="tel" placeholder="00.000.000/0000-00" value="{{ old('cnpj') }}" class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
                     @error('cnpj')
                         <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -144,3 +144,20 @@
     </div>
 </section>
 @endsection
+
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/imask/7.1.3/imask.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cnpjInput = document.getElementById('cnpj');
+        if (cnpjInput) {
+            const mask = IMask(cnpjInput, { mask: '00.000.000/0000-00' });
+            const form = cnpjInput.closest('form');
+            if (form) {
+                form.addEventListener('submit', function() { mask.updateValue(); });
+            }
+        }
+    });
+</script>
+@endpush
