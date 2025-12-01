@@ -28,7 +28,7 @@
                         <p class="text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-                <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 text-white font-semibold px-4 py-3 rounded-lg shadow hover:bg-blue-700 transition">
+                <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 text-white font-semibold px-4 py-3 rounded-lg shadow hover:bg-blue-700 transition cursor-pointer">
                     <i class="bi bi-search"></i>
                     Consultar CNPJ
                 </button>

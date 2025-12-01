@@ -3,7 +3,7 @@
         <a href="{{ route('home') }}" class="flex items-center gap-2">
             <div class="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">C</div>
             <div>
-                <p class="text-lg font-semibold">Consulta CNPJ</p>
+                <p class="text-lg font-semibold">Busca CNPJs</p>
                 <p class="text-sm text-slate-500">Busca rápida e segura</p>
             </div>
         </a>

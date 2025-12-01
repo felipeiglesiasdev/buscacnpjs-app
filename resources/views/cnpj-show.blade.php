@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('seo')
-    @include('components.cnpj.tags')
+    @include('components.cnpj.tags', ['data' => $data])
 @endpush
 
 @section('content')
@@ -99,7 +99,7 @@
                 <p class="text-lg font-bold text-slate-900">Deseja remover seus dados desta consulta?</p>
                 <p class="text-sm text-slate-600">Se você é responsável por este CNPJ, solicite a remoção das informações apresentadas.</p>
             </div>
-            <a href="{{ route('remocao.show', ['cnpj' => $data['cnpj_limpo']]) }}" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow">
+            <a href="{{ route('remocao.show', ['cnpj' => $data['cnpj_limpo']]) }}" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow cursor-pointer">
                 <i class="bi bi-shield-lock"></i>
                 Solicitar Remoção de Dados
             </a>
