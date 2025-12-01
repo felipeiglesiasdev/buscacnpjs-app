@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: https://www.buscacnpjs.com/sitemap_index.xml
